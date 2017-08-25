@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/cor_bk_padrao"
+    android:orientation="vertical"
+    tools:context="alcoolgasolina.projetos.com.alcoolougasolina.activity.MainActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_padrao" />
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/logo_app_logo" />
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="30dp">
+
+        <EditText
+            android:id="@+id/edtPrecoAlcool"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Digite o preço do Alcool"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            android:textColor="@color/cor_txt_padrao"
+            android:textColorHint="@color/cor_txt_padrao" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edtPrecoGasolina"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:hint="Digite o preço da Gasolina"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            android:textColor="@color/cor_txt_padrao"
+            android:textColorHint="@color/cor_txt_padrao" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnCalcular"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@color/cor_btn_padrao_dark"
+        android:padding="15dp"
+        android:text="Calcular" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/txtResultado"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textAlignment="center"
+            android:textColor="@color/cor_txt_padrao"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>
