@@ -29,7 +29,7 @@
             android:id="@+id/edtPrecoAlcool"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Digite o preço do Alcool"
+            android:hint="Digite o preço do Etanol"
             android:inputType="numberDecimal"
             android:padding="8dp"
             android:textColor="@color/cor_txt_padrao"
