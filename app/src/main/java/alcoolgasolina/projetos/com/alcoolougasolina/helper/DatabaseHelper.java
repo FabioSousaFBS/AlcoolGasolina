@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    private  static final String BANCO_DADOS = "AlcoolGasolina";
+    private static final String BANCO_DADOS = "AlcoolGasolina";
     private static final int VERSAO = 1;
 
     public DatabaseHelper(Context context) {
@@ -18,12 +18,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("CREATE TABLE IF NOT EXISTS Carros(" +
                 "    idCarro INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "    descricao VARCHAR(30)," +
+                "    cmEtanol NUMERIC(10,2)," +
+                "    cmGasolina NUMERIC(10,2)," +
                 "    fator NUMERIC(10,2));");
 
         //INSERINDO O VEICULO PADRÃO APÓS CRIAR A TABELA CARROS
-       db.execSQL(" INSERT INTO  Carros(descricao, fator) " +
-        "   SELECT temp.descricao, temp.fator FROM (SELECT 'Veiculo Padrão' AS descricao, 0.70 AS fator) AS temp " +
-        "   WHERE 0 = (SELECT COUNT(*) FROM Carros); ");
+       db.execSQL(" INSERT INTO  Carros(descricao, cmEtanol, cmGasolina, fator) " +
+               "    SELECT temp.descricao, temp.cmEtanol, temp.cmGasolina, temp.fator FROM (SELECT 'Veiculo Padrão' AS descricao, 0.0 AS cmEtanol, 0.0 AS cmGasolina, 0.70 AS fator) AS temp " +
+               " WHERE 0 = (SELECT COUNT(*) FROM Carros);");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS Historico(" +
                 "    idHistorico INTEGER PRIMARY KEY AUTOINCREMENT," +

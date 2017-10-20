@@ -10,6 +10,7 @@ public final class ConfiguracaoBanco {
 
         if(banco == null){
             banco = SQLiteDatabase.openOrCreateDatabase("DbAlcoolGasolina", null);
+            //banco = SQLiteDatabase.op
         }
 
         return banco;
