@@ -22,6 +22,7 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private CheckBox chkVeiculoPadrao;
     private SQLiteDatabase banco;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,13 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarCadVeiculo);
         chkVeiculoPadrao = (CheckBox) findViewById(R.id.chkVeiculoPadrão);
 
+        bundle = getIntent().getExtras();
+        if (bundle != null){
+            edtNomeVeiculo.setText(bundle.getString("nome_carro"));
+            edtConsumoAlcool.setText(String.valueOf(bundle.getDouble("CE_carro")));
+            edtConsumoGasolina.setText(String.valueOf(bundle.getDouble("CG_carro")));
+        }
+
         //CONFIGURAR TOOBAR
         toolbar.setTitle("Cadastro de Veículos");
         toolbar.setNavigationIcon(R.drawable.ic_voltar);
@@ -46,8 +54,6 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
 
         //BANCO DE DADOS
         banco = openOrCreateDatabase("AlcoolGasolina", MODE_PRIVATE, null);
-
-
         //BOTÕES
         btnSalvarDados.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,8 +89,18 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
            double vlConsumoGasolina = Double.parseDouble(edtConsumoGasolina.getText().toString());
            double vlIndice = dblArredondar((vlConsumoEtanol / vlConsumoGasolina), 2, 0);
 
-           String strSql = "INSERT INTO  Carros(descricao, cmEtanol, cmGasolina, fator) VALUES('" + edtNomeVeiculo.getText().toString().trim() +"', "
-                   + vlConsumoEtanol + ", " + vlConsumoGasolina + ", " + vlIndice + ")" ;
+           String strSql;
+            if(bundle != null) {
+                strSql = "UPDATE Carros SET descricao = '" + edtNomeVeiculo.getText().toString().trim() + "', "
+                    + "cmEtanol = " + vlConsumoEtanol  + ", "
+                + "cmGasolina = " + vlConsumoGasolina + ", "
+                + "fator = " + vlIndice + " "
+                + "WHERE idCarro = " + bundle.getInt("ID_carro")  ;
+
+            }else{
+                strSql = "INSERT INTO  Carros(descricao, cmEtanol, cmGasolina, fator) VALUES('" + edtNomeVeiculo.getText().toString().trim() +"', "
+                        + vlConsumoEtanol + ", " + vlConsumoGasolina + ", " + vlIndice + ")" ;
+            }
 
            banco.execSQL(strSql);
            Toast.makeText(CadastroVeiculoActivity.this, "Veículo salvo com sucesso!", Toast.LENGTH_SHORT).show();
@@ -102,7 +118,6 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
 
        }
 
-
     }
 
     private boolean bValidacoesCadastro(){
@@ -114,8 +129,6 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
         return true;
 
     }
-
-
     //Parâmetros:
     /**
      * 	1 - Valor a arredondar.

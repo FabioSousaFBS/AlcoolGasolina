@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -42,9 +43,9 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:text="Indice: 0,70"
+            android:text="Fator: 0,70"
             android:textAlignment="textEnd"
-            android:textColor="@android:color/holo_blue_light"
+            android:textColor="#097197"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -63,8 +64,8 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:text="Consumo Etanol: 12 Km/L"
-            android:textColor="@android:color/darker_gray"
+            android:text="Consumo Etanol: 12.0 Km/L"
+            android:textColor="#686767"
             android:textSize="12sp" />
 
         <TextView
@@ -75,10 +76,16 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:text="Consumo Gasolina: 16 Km/L"
-            android:textColor="@android:color/darker_gray"
+            android:text="Consumo Gasolina: 16.0 Km/L"
+            android:textColor="#FF686767"
             android:textSize="12sp" />
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/separador2" />
 
 </LinearLayout>
