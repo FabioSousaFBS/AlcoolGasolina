@@ -1,5 +1,6 @@
 package alcoolgasolina.projetos.com.alcoolougasolina.activity;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import alcoolgasolina.projetos.com.alcoolougasolina.R;
 import alcoolgasolina.projetos.com.alcoolougasolina.helper.ConfiguracaoBanco;
 import alcoolgasolina.projetos.com.alcoolougasolina.helper.Preferencias;
+import alcoolgasolina.projetos.com.alcoolougasolina.model.Carros;
 
 public class CadastroVeiculoActivity extends AppCompatActivity {
 
@@ -23,6 +25,7 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
     private CheckBox chkVeiculoPadrao;
     private SQLiteDatabase banco;
     private Bundle bundle;
+    private Carros carro_aux;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +40,21 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarCadVeiculo);
         chkVeiculoPadrao = (CheckBox) findViewById(R.id.chkVeiculoPadrão);
 
-        bundle = getIntent().getExtras();
+        Intent extras = getIntent();
+        carro_aux = (Carros) extras.getSerializableExtra("objeto");
+
+        if (carro_aux.getDescricao() != null || carro_aux.getDescricao() != "" ){
+            edtNomeVeiculo.setText(carro_aux.getDescricao());
+            edtConsumoAlcool.setText(String.valueOf(carro_aux.getCmEtanol()));
+            edtConsumoGasolina.setText(String.valueOf(carro_aux.getCmGasolina()));
+        }
+
+        /*bundle = getIntent().getExtras();
         if (bundle != null){
             edtNomeVeiculo.setText(bundle.getString("nome_carro"));
             edtConsumoAlcool.setText(String.valueOf(bundle.getDouble("CE_carro")));
             edtConsumoGasolina.setText(String.valueOf(bundle.getDouble("CG_carro")));
-        }
+        }*/
 
         //CONFIGURAR TOOBAR
         toolbar.setTitle("Cadastro de Veículos");
@@ -90,12 +102,12 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
            double vlIndice = dblArredondar((vlConsumoEtanol / vlConsumoGasolina), 2, 0);
 
            String strSql;
-            if(bundle != null) {
+            if(carro_aux.getDescricao() != null || carro_aux.getDescricao() != "" ) {
                 strSql = "UPDATE Carros SET descricao = '" + edtNomeVeiculo.getText().toString().trim() + "', "
                     + "cmEtanol = " + vlConsumoEtanol  + ", "
                 + "cmGasolina = " + vlConsumoGasolina + ", "
                 + "fator = " + vlIndice + " "
-                + "WHERE idCarro = " + bundle.getInt("ID_carro")  ;
+                + "WHERE idCarro = " + carro_aux.getIdCarro()  ;
 
             }else{
                 strSql = "INSERT INTO  Carros(descricao, cmEtanol, cmGasolina, fator) VALUES('" + edtNomeVeiculo.getText().toString().trim() +"', "

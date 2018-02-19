@@ -170,10 +170,13 @@ public class VeiculosActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(VeiculosActivity.this, CadastroVeiculoActivity.class);
-                intent.putExtra("nome_carro", carro.getDescricao());
+                /*intent.putExtra("nome_carro", carro.getDescricao());
                 intent.putExtra("CE_carro", carro.getCmEtanol());
                 intent.putExtra("CG_carro", carro.getCmGasolina());
-                intent.putExtra("ID_carro", carro.getIdCarro());
+                intent.putExtra("ID_carro", carro.getIdCarro());*/
+
+                intent.putExtra("objeto", carro);
+
                 startActivity(intent);
             }
         });

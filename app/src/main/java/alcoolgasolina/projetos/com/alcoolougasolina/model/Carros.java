@@ -1,6 +1,8 @@
 package alcoolgasolina.projetos.com.alcoolougasolina.model;
 
-public class Carros {
+import java.io.Serializable;
+
+public class Carros implements Serializable{
 
     private int idCarro;
     private String descricao;

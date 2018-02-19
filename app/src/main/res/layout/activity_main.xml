@@ -100,6 +100,7 @@
         android:textColor="@color/cor_txt_padrao"
         android:textSize="30sp"
         android:textStyle="bold"
+        android:textIsSelectable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogo" />

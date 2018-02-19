@@ -21,6 +21,7 @@ import alcoolgasolina.projetos.com.alcoolougasolina.helper.ConfiguracaoBanco;
 import alcoolgasolina.projetos.com.alcoolougasolina.helper.DatabaseHelper;
 import alcoolgasolina.projetos.com.alcoolougasolina.helper.InterpretaTexto;
 import alcoolgasolina.projetos.com.alcoolougasolina.helper.Preferencias;
+import alcoolgasolina.projetos.com.alcoolougasolina.util.Utilities;
 
 //recursos de reconhecimento de voz
 import android.speech.RecognizerIntent;
@@ -30,6 +31,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
@@ -39,10 +41,9 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     private TextView tvResultado;
     private ImageView imgBtnVoz;
     private Button btnCalcular;
-
     private DatabaseHelper helper;
-
     private Toolbar toolbar;
+    private static final Locale LOCAL = new Locale("pt","BR");
 
     private String[] permissoesNecessarias = new String[]{
             Manifest.permission.INTERNET,
@@ -91,7 +92,9 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         imgBtnVoz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.esconderTeclado(MainActivity.this);
                 executaComandoVoz();
+
             }
         });
 
@@ -102,6 +105,12 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             }
         });
 
+        tvResultado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utilities.copiar(getApplicationContext(), tvResultado.getText().toString());
+            }
+        });
     }
 
     @Override
@@ -172,7 +181,6 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     @Override
     public void onInit(int status) {
-
     }
 
     private void executaComandoVoz(){
