@@ -1,5 +1,6 @@
 package alcoolgasolina.projetos.com.alcoolougasolina.activity;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import alcoolgasolina.projetos.com.alcoolougasolina.R;
 import alcoolgasolina.projetos.com.alcoolougasolina.helper.ConfiguracaoBanco;
 import alcoolgasolina.projetos.com.alcoolougasolina.helper.Preferencias;
+import alcoolgasolina.projetos.com.alcoolougasolina.model.Carros;
 
 public class CadastroVeiculoActivity extends AppCompatActivity {
 
@@ -22,6 +24,8 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private CheckBox chkVeiculoPadrao;
     private SQLiteDatabase banco;
+    private Bundle bundle;
+    private Carros carro_aux;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,22 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarCadVeiculo);
         chkVeiculoPadrao = (CheckBox) findViewById(R.id.chkVeiculoPadrão);
 
+        Intent extras = getIntent();
+        carro_aux = (Carros) extras.getSerializableExtra("objeto");
+
+        if (carro_aux.getDescricao() != null || carro_aux.getDescricao() != "" ){
+            edtNomeVeiculo.setText(carro_aux.getDescricao());
+            edtConsumoAlcool.setText(String.valueOf(carro_aux.getCmEtanol()));
+            edtConsumoGasolina.setText(String.valueOf(carro_aux.getCmGasolina()));
+        }
+
+        /*bundle = getIntent().getExtras();
+        if (bundle != null){
+            edtNomeVeiculo.setText(bundle.getString("nome_carro"));
+            edtConsumoAlcool.setText(String.valueOf(bundle.getDouble("CE_carro")));
+            edtConsumoGasolina.setText(String.valueOf(bundle.getDouble("CG_carro")));
+        }*/
+
         //CONFIGURAR TOOBAR
         toolbar.setTitle("Cadastro de Veículos");
         toolbar.setNavigationIcon(R.drawable.ic_voltar);
@@ -46,8 +66,6 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
 
         //BANCO DE DADOS
         banco = openOrCreateDatabase("AlcoolGasolina", MODE_PRIVATE, null);
-
-
         //BOTÕES
         btnSalvarDados.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,8 +101,18 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
            double vlConsumoGasolina = Double.parseDouble(edtConsumoGasolina.getText().toString());
            double vlIndice = dblArredondar((vlConsumoEtanol / vlConsumoGasolina), 2, 0);
 
-           String strSql = "INSERT INTO  Carros(descricao, cmEtanol, cmGasolina, fator) VALUES('" + edtNomeVeiculo.getText().toString().trim() +"', "
-                   + vlConsumoEtanol + ", " + vlConsumoGasolina + ", " + vlIndice + ")" ;
+           String strSql;
+            if(carro_aux.getDescricao() != null || carro_aux.getDescricao() != "" ) {
+                strSql = "UPDATE Carros SET descricao = '" + edtNomeVeiculo.getText().toString().trim() + "', "
+                    + "cmEtanol = " + vlConsumoEtanol  + ", "
+                + "cmGasolina = " + vlConsumoGasolina + ", "
+                + "fator = " + vlIndice + " "
+                + "WHERE idCarro = " + carro_aux.getIdCarro()  ;
+
+            }else{
+                strSql = "INSERT INTO  Carros(descricao, cmEtanol, cmGasolina, fator) VALUES('" + edtNomeVeiculo.getText().toString().trim() +"', "
+                        + vlConsumoEtanol + ", " + vlConsumoGasolina + ", " + vlIndice + ")" ;
+            }
 
            banco.execSQL(strSql);
            Toast.makeText(CadastroVeiculoActivity.this, "Veículo salvo com sucesso!", Toast.LENGTH_SHORT).show();
@@ -102,7 +130,6 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
 
        }
 
-
     }
 
     private boolean bValidacoesCadastro(){
@@ -114,8 +141,6 @@ public class CadastroVeiculoActivity extends AppCompatActivity {
         return true;
 
     }
-
-
     //Parâmetros:
     /**
      * 	1 - Valor a arredondar.
